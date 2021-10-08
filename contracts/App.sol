@@ -1,19 +1,23 @@
 //SPDX-License-Identifier: Unlicense
 pragma solidity ^0.8.0;
 
+import './Poll.sol';
 import "hardhat/console.sol";
 
 contract App {
 
-  struct Poll {
+  struct PollStruct {
     string title;
     string description;
     string[] options;
+    address pollAddr;
   }
 
   Poll[] private pollsList;
 
-  mapping(address => Poll) addrToPoll;
+  PollStruct[] private pollsData;
+
+  mapping(address => PollStruct) addrToPoll;
 
   function createPoll(
     string memory _title, 
@@ -21,19 +25,25 @@ contract App {
     string[] memory _options
   ) public {
     
-    Poll memory newPoll = Poll({
+    Poll newPollAddr = new Poll(_title, _description, _options);
+    pollsList.push(newPollAddr);
+
+    PollStruct memory newPollStruct = PollStruct({
       title: _title,
       description: _description,
-      options: _options
+      options: _options,
+      pollAddr: address(newPollAddr)
     });
 
-    pollsList.push(newPoll);
+    addrToPoll[address(newPollAddr)] = newPollStruct;
+
+    pollsData.push(newPollStruct);
   }
 
-  function getPolls() public view returns (Poll[] memory) {
+  function getPolls() public view returns (PollStruct[] memory) {
     console.log('Retrieving all polls');
 
-    return pollsList;
+    return pollsData;
   }
 }
 
