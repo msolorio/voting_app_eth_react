@@ -27,6 +27,18 @@ function PollIndex() {
       console.log('Error getting polls ==>', err);
     }
   }
+
+
+  function renderOptions(options, pollIdx) {
+    return options.map((opt, idx) => {
+      return (
+        <li key={idx}>
+          <input type="radio" name="choice" id={`${pollIdx}-${idx}`} value={opt} />
+          <label htmlFor={`${pollIdx}-${idx}`}>{opt}</label>
+        </li>
+      );
+    });
+  }
   
 
   /////////////////////////////////////////////////////////////////////////////////
@@ -36,12 +48,15 @@ function PollIndex() {
         <div key={idx}>
           <h2>{poll.title}</h2>
           <p>{poll.description}</p>
+          <ul>
+            {renderOptions(poll.options, idx)}
+          </ul>
         </div>
       )
     });
   }
   
-  
+
   /////////////////////////////////////////////////////////////////////////////////
   return (
     <main>

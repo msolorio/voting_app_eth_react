@@ -8,16 +8,23 @@ contract App {
   struct Poll {
     string title;
     string description;
+    string[] options;
   }
 
   Poll[] private pollsList;
 
   mapping(address => Poll) addrToPoll;
 
-  function createPoll(string memory _title, string memory _description) public {
+  function createPoll(
+    string memory _title, 
+    string memory _description, 
+    string[] memory _options
+  ) public {
+    
     Poll memory newPoll = Poll({
       title: _title,
-      description: _description
+      description: _description,
+      options: _options
     });
 
     pollsList.push(newPoll);

@@ -44,7 +44,9 @@ function PollCreate() {
       const signer = provider.getSigner();
       const contract = new ethers.Contract(APP_CONTRACT_ADDRESS, AppContract.abi, signer);
       
-      const transaction = await contract.createPoll(state.title, state.description);
+      const tempOptions = ['cats', 'dogs'];
+
+      const transaction = await contract.createPoll(state.title, state.description, tempOptions);
       await transaction.wait();
       
       console.log('created poll');
