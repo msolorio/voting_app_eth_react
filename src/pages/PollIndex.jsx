@@ -29,6 +29,7 @@ function PollIndex() {
   }
 
 
+  /////////////////////////////////////////////////////////////////////////////////
   function renderOptions(options, pollIdx) {
     return options.map((opt, idx) => {
       return (
@@ -39,19 +40,27 @@ function PollIndex() {
       );
     });
   }
+
+
+  /////////////////////////////////////////////////////////////////////////////////
+  const handleVote = (event) => {
+
+  }
+
   
 
   /////////////////////////////////////////////////////////////////////////////////
   function renderPolls() {
     return allPolls.map((poll, idx) => {
       return (
-        <div key={idx}>
+        <form key={idx} onSubmit={() => handleVote()}>
           <h2>{poll.title}</h2>
           <p>{poll.description}</p>
           <ul>
             {renderOptions(poll.options, idx)}
           </ul>
-        </div>
+          <input type="submit" value="Vote" />
+        </form>
       )
     });
   }
