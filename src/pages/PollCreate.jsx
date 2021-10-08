@@ -9,6 +9,8 @@ function PollCreate() {
   const [state, setState] = useState({
     title: '',
     description: '',
+    options: [],
+    optionInput: '',
     redirect: false
   });
   
@@ -19,6 +21,16 @@ function PollCreate() {
       ...state,
       [event.target.name]: event.target.value
     })
+  }
+
+  const handleOptionAdd = (event) => {
+    const updatedOptions = [...state.options, state.optionInput];
+
+    setState({
+      ...state,
+      optionInput: '',
+      options: updatedOptions
+    });
   }
   
   
@@ -43,10 +55,8 @@ function PollCreate() {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
       const contract = new ethers.Contract(APP_CONTRACT_ADDRESS, AppContract.abi, signer);
-      
-      const tempOptions = ['cats', 'dogs'];
 
-      const transaction = await contract.createPoll(state.title, state.description, tempOptions);
+      const transaction = await contract.createPoll(state.title, state.description, state.options);
       await transaction.wait();
       
       console.log('created poll');
@@ -62,6 +72,11 @@ function PollCreate() {
     }
   }
   
+  function renderOptions() {
+    return state.options.map((opt, idx) => {
+      return <li key={idx}>{opt}</li>
+    });
+  }
   
   ////////////////////////////////////////////////////////////////////////////
   if (state.redirect) return <Redirect to="/polls" />;
@@ -90,6 +105,26 @@ function PollCreate() {
             onChange={handleInputChange}
           />
         </div>
+
+        <ul>{renderOptions()}</ul>
+
+        <div>
+          <label htmlFor="optionInput">Option: </label>
+          <input
+            type="text" 
+            name="optionInput" 
+            value={state.optionInput}
+            onChange={handleInputChange}
+          />
+          <input
+            type="button"
+            value="Add Option"
+            onClick={handleOptionAdd}
+          />
+        </div>
+
+        <br />
+        <br />
 
         <input type="submit" value="Create" />
       </form>
