@@ -3,7 +3,11 @@ import { ethers } from 'ethers';
 import AppContract from './artifacts/contracts/App.sol/App.json';
 import './App.css';
 
-const appContractAddr = '0x5FbDB2315678afecb367f032d93F642f64180aa3';
+// Local
+// const appContractAddr = '0x5FbDB2315678afecb367f032d93F642f64180aa3';
+
+// Ropsten
+const appContractAddr = '0xA6ce7D00d20355B5bb6658e3D084BA5BfFD1bdf3';
 
 function App() {
   const [state, setState] = useState({
@@ -24,11 +28,12 @@ function App() {
   }
 
 
+  ////////////////////////////////////////////////////////////////////////////
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-
+    
     console.log('submit form');
-
+    
     if (!state.title || !state.description) return;
     if (!window.ethereum) return;
     
@@ -41,13 +46,21 @@ function App() {
       
       const transaction = await contract.createPoll(state.title, state.description);
       await transaction.wait();
-
+      
       console.log('created poll');
+      
+      setState({
+        title: '',
+        description: ''
+      });
+      
     } catch(err) {
       console.log('Error creating poll ==>', err);
     }
   }
   
+
+  ////////////////////////////////////////////////////////////////////////////
   const getPolls = async () => {
     if (!window.ethereum) return;
     
