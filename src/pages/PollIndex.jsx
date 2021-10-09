@@ -104,7 +104,8 @@ function PollIndex() {
     const accountAddr = await requestAccount();
 
     const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const contract = new ethers.Contract(APP_CONTRACT_ADDRESS, AppContract.abi, provider);
+    const signer = provider.getSigner();
+    const contract = new ethers.Contract(APP_CONTRACT_ADDRESS, AppContract.abi, signer);
 
     // TODO: PASS IN THE OPTION IDX SELECTED FOR THE POLL BEING VOTED ON
     const optIdx = state.allPolls[pollIdx].selection;

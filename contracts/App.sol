@@ -54,7 +54,7 @@ contract App {
 
 
   //////////////////////////////////////////////////////////////////////
-  function handleVote(address pollAddr, address userAddr, uint optIdx) public view {
+  function handleVote(address pollAddr, address userAddr, uint optIdx) public {
     
     Poll pollContract = addrToPoll[pollAddr].pollContract;
 
