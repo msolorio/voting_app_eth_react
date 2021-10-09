@@ -11,6 +11,7 @@ contract App {
     string description;
     string[] options;
     address pollAddr;
+    Poll pollContract;
   }
 
   Poll[] private pollsList;
@@ -19,31 +20,45 @@ contract App {
 
   mapping(address => PollStruct) addrToPoll;
 
+
+  //////////////////////////////////////////////////////////////////////
   function createPoll(
     string memory _title, 
     string memory _description, 
     string[] memory _options
   ) public {
     
-    Poll newPollAddr = new Poll(_title, _description, _options);
-    pollsList.push(newPollAddr);
+    Poll newPoll = new Poll(_title, _description, _options);
+    pollsList.push(newPoll);
 
     PollStruct memory newPollStruct = PollStruct({
       title: _title,
       description: _description,
       options: _options,
-      pollAddr: address(newPollAddr)
+      pollAddr: address(newPoll),
+      pollContract: newPoll
     });
 
-    addrToPoll[address(newPollAddr)] = newPollStruct;
+    addrToPoll[address(newPoll)] = newPollStruct;
 
     pollsData.push(newPollStruct);
   }
 
+
+  //////////////////////////////////////////////////////////////////////
   function getPolls() public view returns (PollStruct[] memory) {
     console.log('Retrieving all polls');
 
     return pollsData;
+  }
+
+
+  //////////////////////////////////////////////////////////////////////
+  function handleVote(address pollAddr, address userAddr, uint optIdx) public view {
+    
+    Poll pollContract = addrToPoll[pollAddr].pollContract;
+
+    pollContract.handleVote(userAddr, optIdx);
   }
 }
 

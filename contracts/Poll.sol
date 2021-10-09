@@ -17,4 +17,11 @@ contract Poll {
     description = _description;
     options = _options;
   }
+
+  function handleVote(address userAddr, uint optIdx) public view {
+    console.log('calling handleVote');
+    console.log('poll address ==>', address(this));
+    console.log('user address ==>', userAddr);
+    console.log('opt idx ==>', optIdx);
+  }
 }
