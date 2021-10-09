@@ -13,7 +13,7 @@ function PollIndex() {
   });
 
   useEffect(() => {
-    getPolls();
+    getRunningPolls();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -25,14 +25,14 @@ function PollIndex() {
 
 
   /////////////////////////////////////////////////////////////////////////////////
-  async function getPolls() {
+  async function getRunningPolls() {
     if (!window.ethereum) return;
     
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const contract = new ethers.Contract(APP_CONTRACT_ADDRESS, AppContract.abi, provider);
     
     try {
-      const polls = await contract.getPolls();
+      const polls = await contract.getRunningPolls();
       console.log('All Polls ==>', polls);
 
       const pollsWSel = polls.map((poll) => {
@@ -113,7 +113,7 @@ function PollIndex() {
     console.log(pollAddr, accountAddr, optIdx);
 
     try {
-      contract.handleVote(pollAddr, accountAddr, optIdx);
+      contract.handleVote(pollAddr, accountAddr, pollIdx, optIdx);
 
     } catch (err) {
       console.error('Error handling vote ==>', err);

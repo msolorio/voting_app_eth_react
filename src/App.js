@@ -1,7 +1,8 @@
 import { Switch, Route } from 'react-router-dom';
 import Header from './components/Header';
 import PollCreate from './pages/PollCreate';
-import PollIndex from './pages/PollIndex';
+import PollVote from './pages/PollVote';
+import PollTallies from './pages/PollTallies';
 import './App.css';
 
 function App() {
@@ -12,7 +13,9 @@ function App() {
       <Switch>
         <Route path="/polls/new" render={() => <PollCreate />} />
         
-        <Route path="/polls" render={() => <PollIndex />} />
+        <Route exact path="/polls/vote" render={() => <PollVote />} />
+
+        <Route path="/polls/tally" render={() => <PollTallies />} />
       </Switch>
     </div>
   );

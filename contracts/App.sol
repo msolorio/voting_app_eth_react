@@ -12,11 +12,14 @@ contract App {
     string[] options;
     address pollAddr;
     Poll pollContract;
+    bool running;
+    address[] voters;
+    uint[] voteCounts;
   }
 
   Poll[] private pollsList;
 
-  PollStruct[] private pollsData;
+  PollStruct[] private runningPollsData;
 
   mapping(address => PollStruct) addrToPoll;
 
@@ -28,37 +31,52 @@ contract App {
     string[] memory _options
   ) public {
     
-    Poll newPoll = new Poll(_title, _description, _options);
+    Poll newPoll = new Poll();
     pollsList.push(newPoll);
+
+    uint256[] memory voteCounts = new uint256[](_options.length);
+
+    for (uint i = 0; i < _options.length; i++) {
+      voteCounts[i] = 0;
+    }
 
     PollStruct memory newPollStruct = PollStruct({
       title: _title,
       description: _description,
       options: _options,
       pollAddr: address(newPoll),
-      pollContract: newPoll
+      pollContract: newPoll,
+      running: true,
+      voters: new address[](0),
+      voteCounts: voteCounts
     });
 
     addrToPoll[address(newPoll)] = newPollStruct;
 
-    pollsData.push(newPollStruct);
+    runningPollsData.push(newPollStruct);
   }
 
 
   //////////////////////////////////////////////////////////////////////
-  function getPolls() public view returns (PollStruct[] memory) {
+  function getRunningPolls() public view returns (PollStruct[] memory) {
     console.log('Retrieving all polls');
 
-    return pollsData;
+    return runningPollsData;
   }
 
 
   //////////////////////////////////////////////////////////////////////
-  function handleVote(address pollAddr, address userAddr, uint optIdx) public {
+  function handleVote(address pollAddr, address userAddr, uint pollIdx, uint optIdx) public {
     
-    Poll pollContract = addrToPoll[pollAddr].pollContract;
+    console.log('called handleVote');
 
-    pollContract.handleVote(userAddr, optIdx);
+    PollStruct storage pollStruct = addrToPoll[pollAddr];
+
+    pollStruct.voteCounts[optIdx] += 1;
+
+    pollStruct.voters.push(userAddr);
+
+    runningPollsData[pollIdx] = pollStruct;
   }
 }
 

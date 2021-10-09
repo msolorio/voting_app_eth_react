@@ -46,7 +46,7 @@ function PollCreate() {
     
     console.log('submit form');
     
-    if (!state.title || !state.description) return;
+    if (!state.title || !state.options.length) return;
     if (!window.ethereum) return;
     
     try {
@@ -79,7 +79,7 @@ function PollCreate() {
   }
   
   ////////////////////////////////////////////////////////////////////////////
-  if (state.redirect) return <Redirect to="/polls" />;
+  if (state.redirect) return <Redirect to="/polls/vote" />;
   
   return (
     <main>
@@ -97,7 +97,7 @@ function PollCreate() {
         </div>
 
         <div>
-          <label htmlFor="description">Description: </label>
+          <label htmlFor="description">Description (optional): </label>
           <textarea
             type="text" 
             name="description" 
