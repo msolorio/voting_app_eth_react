@@ -1,15 +1,16 @@
-# Basic Sample Hardhat Project
+# Decentralized Voting App
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, a sample script that deploys that contract, and an example of a task implementation, which simply lists the available accounts.
+Voting App storing poll and voting information on the Ethereum blockchain.
 
-Try running some of the following tasks:
+## Technologies Used
 
-```shell
-npx hardhat accounts
-npx hardhat compile
-npx hardhat clean
-npx hardhat test
-npx hardhat node
-node scripts/sample-script.js
-npx hardhat help
-```
+- Solidity
+- Ethers
+- Hardhat
+- React
+- React Router
+
+## Users Can...
+- Create polls
+- Vote on polls
+- View voting tally on running and completed polls
