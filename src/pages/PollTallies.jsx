@@ -21,17 +21,6 @@ function PollRunning() {
     
     try {
       const polls = await contract.getRunningPolls();
-      console.log('All Polls ==>', polls);
-      console.log('voteCount ==>', polls[0].voteCounts[0].toNumber());
-      console.log('voteCount ==>', polls[0].voteCounts[1].toNumber());
-
-      // console.log('polls[0]', polls[0].pollContract.handleVote())
-
-      // const pollsWSel = polls.map((poll) => {
-      //   const pollClone = {...poll};
-      //   pollClone.selection = null;
-      //   return pollClone;
-      // });
       
       setState({
         ...state,

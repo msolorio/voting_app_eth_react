@@ -5,11 +5,10 @@ import cloneDeep from 'clone-deep';
 
 import { APP_CONTRACT_ADDRESS } from '../constants';
 
-function PollIndex() {
-  // const [allPolls, setAllPolls] = useState([]);
+function PollVote() {
   const [state, setState] = useState({
     allPolls: [],
-    userAddr: '',
+    userAddr: ''
   });
 
   useEffect(() => {
@@ -28,6 +27,8 @@ function PollIndex() {
   async function getRunningPolls() {
     if (!window.ethereum) return;
     
+    const userAddr = await requestAccount();
+
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const contract = new ethers.Contract(APP_CONTRACT_ADDRESS, AppContract.abi, provider);
     
@@ -36,14 +37,25 @@ function PollIndex() {
       console.log('All Polls ==>', polls);
 
       const pollsWSel = polls.map((poll) => {
+
+        // Adds prop to keep track of option selection
         const pollClone = {...poll};
         pollClone.selection = null;
+
+        // Adds prop specifying if user is eligible to vote on poll
+        const enabled = !poll.voters.find((voter) => {
+          return voter.toLowerCase() === userAddr.toLowerCase();
+        });
+
+        pollClone.enabled = enabled;
+
         return pollClone;
       });
       
       setState({
         ...state,
-        allPolls: pollsWSel
+        allPolls: pollsWSel,
+        userAddr: userAddr
       });
       
     } catch (err) {
@@ -65,7 +77,7 @@ function PollIndex() {
 
 
   /////////////////////////////////////////////////////////////////////////////////
-  function renderOptions(options, pollIdx) {
+  function renderOptions(options, pollIdx, enabled) {
     const selectedIdx = state.allPolls[pollIdx].selection;
 
     console.log('selectedIdx ==>', selectedIdx);
@@ -86,6 +98,7 @@ function PollIndex() {
             id={`${pollIdx}-${optIdx}`} 
             value={optIdx} 
             checked={checked}
+            disabled={!enabled}
             onChange={(e) => handleOptSelect(e, pollIdx, optIdx)}
           />
           <label htmlFor={`${pollIdx}-${optIdx}`}>{opt}</label>
@@ -100,20 +113,24 @@ function PollIndex() {
     event.preventDefault();
 
     if (!window.ethereum) return;
-    
-    const accountAddr = await requestAccount();
 
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
     const contract = new ethers.Contract(APP_CONTRACT_ADDRESS, AppContract.abi, signer);
-
-    // TODO: PASS IN THE OPTION IDX SELECTED FOR THE POLL BEING VOTED ON
     const optIdx = state.allPolls[pollIdx].selection;
 
-    console.log(pollAddr, accountAddr, optIdx);
+    console.log(pollAddr, state.userAddr, optIdx);
 
     try {
-      contract.handleVote(pollAddr, accountAddr, pollIdx, optIdx);
+      await contract.handleVote(pollAddr, state.userAddr, pollIdx, optIdx);
+
+      const allPollsClone = cloneDeep(state.allPolls);
+      allPollsClone[pollIdx].enabled = false;
+
+      setState({
+        ...state,
+        allPolls: allPollsClone
+      });
 
     } catch (err) {
       console.error('Error handling vote ==>', err);
@@ -130,14 +147,13 @@ function PollIndex() {
           <h2>{poll.title}</h2>
           <p>{poll.description}</p>
           <ul>
-            {renderOptions(poll.options, idx)}
+            {renderOptions(poll.options, idx, poll.enabled)}
           </ul>
-          <input type="submit" value="Vote" />
+          { poll.enabled && <input type="submit" value="Vote" /> }
         </form>
       )
     });
   }
-  
 
   /////////////////////////////////////////////////////////////////////////////////
   return (
@@ -148,4 +164,4 @@ function PollIndex() {
   );
 }
 
-export default PollIndex;
+export default PollVote;
