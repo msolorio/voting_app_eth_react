@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 import { ethers } from 'ethers';
-import AppContract from '../artifacts/contracts/App.sol/App.json';
+import AppContract from '../../artifacts/contracts/App.sol/App.json';
 
-import { APP_CONTRACT_ADDRESS } from '../constants';
+import { APP_CONTRACT_ADDRESS } from '../../constants';
 
 function Reset() {
   const [redirect, setRedirect] = useState(false);

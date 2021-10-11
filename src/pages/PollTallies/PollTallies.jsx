@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
-import { APP_CONTRACT_ADDRESS } from '../constants';
-import AppContract from '../artifacts/contracts/App.sol/App.json';
+import { APP_CONTRACT_ADDRESS } from '../../constants';
+import AppContract from '../../artifacts/contracts/App.sol/App.json';
 
 function PollRunning() {
   const [state, setState] = useState({

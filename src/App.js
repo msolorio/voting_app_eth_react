@@ -1,9 +1,9 @@
 import { Switch, Route, Redirect } from 'react-router-dom';
-import Header from './components/Header';
-import PollCreate from './pages/PollCreate';
-import PollVote from './pages/PollVote';
-import PollTallies from './pages/PollTallies';
-import PollReset from './pages/PollReset';
+import Header from './components/Header/Header';
+import PollCreate from './pages/PollCreate/PollCreate';
+import PollVote from './pages/PollVote/PollVote';
+import PollTallies from './pages/PollTallies/PollTallies';
+import PollReset from './pages/PollReset/PollReset';
 import './App.css';
 
 function App() {

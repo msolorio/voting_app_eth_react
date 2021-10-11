@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
-import AppContract from '../artifacts/contracts/App.sol/App.json';
+import AppContract from '../../artifacts/contracts/App.sol/App.json';
 import cloneDeep from 'clone-deep';
 
-import { APP_CONTRACT_ADDRESS } from '../constants';
+import { APP_CONTRACT_ADDRESS } from '../../constants';
 
 function PollVote() {
   const [state, setState] = useState({

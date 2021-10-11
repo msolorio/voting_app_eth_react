@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { ethers } from 'ethers';
-import AppContract from '../artifacts/contracts/App.sol/App.json';
-
-import { APP_CONTRACT_ADDRESS } from '../constants';
+import AppContract from '../../artifacts/contracts/App.sol/App.json';
+import { APP_CONTRACT_ADDRESS } from '../../constants';
+import './PollCreate.css';
 
 function PollCreate() {
   const [state, setState] = useState({
@@ -80,7 +80,11 @@ function PollCreate() {
   
   function renderOptions() {
     return state.options.map((opt, idx) => {
-      return <li key={idx}>{opt}</li>
+      return (
+        <li className="form-option" key={idx}>
+          {opt}
+        </li>
+      );
     });
   }
   
@@ -90,13 +94,14 @@ function PollCreate() {
   if (state.redirect) return <Redirect to="/polls/vote" />;
   
   return (
-    <main>
-      <h1>Create a Poll</h1>
+    <main className="main createPage">
+      <h2 className="pageHeader">Create a Poll</h2>
 
       <form onSubmit={handleFormSubmit}>
-        <div>
-          <label htmlFor="title">Title: </label>
-          <input 
+        <div className="form-group">
+          <label className="form-label" htmlFor="title">Title: </label>
+          <input
+            className="form-input"
             type="text" 
             name="title" 
             value={state.title}
@@ -104,9 +109,10 @@ function PollCreate() {
           />
         </div>
 
-        <div>
-          <label htmlFor="description">Description (optional): </label>
+        <div className="form-group">
+          <label className="form-label" htmlFor="description">Description (optional): </label>
           <textarea
+            className="form-input"
             type="text" 
             name="description" 
             value={state.description}
@@ -114,27 +120,32 @@ function PollCreate() {
           />
         </div>
 
-        <ul>{renderOptions()}</ul>
 
-        <div>
-          <label htmlFor="optionInput">Option: </label>
+        <div className="form-group">
+          <label className="form-label" htmlFor="options">Options:</label>
+          <ul id="options" className="form-optionGroup">{renderOptions()}</ul>
+          
+          <label className="form-label" htmlFor="optionInput" hidden>Add: </label>
           <input
+            className="form-input"
             type="text" 
             name="optionInput" 
             value={state.optionInput}
             onChange={handleInputChange}
           />
           <input
+            className="form-button form-buttonOption"
             type="button"
             value="Add Option"
             onClick={handleOptionAdd}
           />
         </div>
 
-        <br />
-        <br />
-
-        <input type="submit" value="Create" />
+        <input 
+          className="form-button form-buttonSubmit"
+          type="submit" 
+          value="Create" 
+        />
       </form>
     </main>
   )

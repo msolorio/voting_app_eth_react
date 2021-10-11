@@ -1,0 +1,50 @@
+.form-group {
+  display: flex;
+  flex-direction: column;
+  padding: 0 0 .8em;
+}
+
+.form-label {
+  margin: 0 0 .3em;
+}
+
+.form-input {
+  padding: .3em .4em;
+  margin: 0 0 .5em;
+  border-radius: .3em;
+  border: .1em solid #888;
+}
+
+.form-optionGroup {
+  /* padding: 0 0 .5em; */
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.form-option {
+  background: #ddd;
+  border: none;
+  border-radius: .3em;
+  padding: .4em .7em;
+  margin: .2em .3em .6em 0;
+  display: inline-block;
+  font-size: .85em;
+}
+
+.form-button {
+  margin: 0 auto;
+  display: block;
+  padding: .4em 1em;
+  border-radius: .3em;
+  background: #ccc;
+  border: none;
+}
+
+.form-buttonOption {
+  width: 100%;
+}
+
+.form-buttonSubmit {
+  margin-top: 1.5em;
+}

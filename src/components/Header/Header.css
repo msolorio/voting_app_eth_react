@@ -1,0 +1,25 @@
+.header-title {
+  font-size: 1.5em;
+  text-align: center;
+  padding: 10px 0;
+  background: #ccc;
+}
+
+.header-ul {
+  display: flex;
+  justify-content: space-between;
+}
+
+.header-li {
+  width: 100%;
+  font-size: .8em;
+}
+
+.header-link {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  text-decoration: none;
+  padding: 10px 0;
+  color: #555;
+}
