@@ -26,6 +26,8 @@ async function main() {
 
   await app.deployed();
 
+  await app.resetPolls();
+
   console.log('App deployed to:', app.address);
 }
 

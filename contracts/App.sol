@@ -59,11 +59,17 @@ contract App {
   function resetPolls() public {
     delete runningPollsData;
 
-    string[] memory t = new string[](2);
-    t[0] = 'Cats';
-    t[1] = 'Dogs';
+    string[] memory t1 = new string[](2);
+    t1[0] = 'Cats';
+    t1[1] = 'Dogs';
 
-    createPoll('Cats or Dogs?', '', t);
+    createPoll('Cats or Dogs?', '', t1);
+
+    string[] memory t2 = new string[](2);
+    t2[0] = 'Mountains';
+    t2[1] = 'Beaches';
+
+    createPoll('Mountains or Beaches?', '', t2);
   }
 
 
