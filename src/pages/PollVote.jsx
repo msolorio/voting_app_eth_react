@@ -8,7 +8,9 @@ import { APP_CONTRACT_ADDRESS } from '../constants';
 function PollVote() {
   const [state, setState] = useState({
     allPolls: [],
-    userAddr: ''
+    userAddr: '',
+    retrievingPolls: false,
+    processingVote: false
   });
 
   useEffect(() => {
@@ -27,6 +29,11 @@ function PollVote() {
   async function getRunningPolls() {
     if (!window.ethereum) return;
     
+    setState({
+      ...state,
+      retrievingPolls: true
+    });
+
     const userAddr = await requestAccount();
 
     const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -55,7 +62,8 @@ function PollVote() {
       setState({
         ...state,
         allPolls: pollsWSel,
-        userAddr: userAddr
+        userAddr: userAddr,
+        retrievingPolls: false
       });
       
     } catch (err) {
@@ -114,6 +122,11 @@ function PollVote() {
 
     if (!window.ethereum) return;
 
+    setState({
+      ...state,
+      processingVote: true
+    });
+
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
     const contract = new ethers.Contract(APP_CONTRACT_ADDRESS, AppContract.abi, signer);
@@ -122,14 +135,16 @@ function PollVote() {
     console.log(pollAddr, state.userAddr, optIdx);
 
     try {
-      await contract.handleVote(pollAddr, state.userAddr, pollIdx, optIdx);
+      const transaction = await contract.handleVote(pollAddr, state.userAddr, pollIdx, optIdx);
+      await transaction.wait();
 
       const allPollsClone = cloneDeep(state.allPolls);
       allPollsClone[pollIdx].enabled = false;
 
       setState({
         ...state,
-        allPolls: allPollsClone
+        allPolls: allPollsClone,
+        processingVote: false
       });
 
     } catch (err) {
@@ -154,6 +169,10 @@ function PollVote() {
       )
     });
   }
+
+  if (state.retrievingPolls) return <main>Retrieving all Polls...</main>;
+
+  if (state.processingVote) return <main>Processing your vote...</main>;
 
   /////////////////////////////////////////////////////////////////////////////////
   return (

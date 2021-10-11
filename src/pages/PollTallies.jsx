@@ -5,7 +5,8 @@ import AppContract from '../artifacts/contracts/App.sol/App.json';
 
 function PollRunning() {
   const [state, setState] = useState({
-    allPolls: []
+    allPolls: [],
+    processing: false
   });
 
   useEffect(() => {
@@ -16,6 +17,11 @@ function PollRunning() {
   /////////////////////////////////////////////////////////////////////////////////
   async function getRunningPolls() {
     if (!window.ethereum) return;
+
+    setState({
+      ...state,
+      processing: true
+    });
     
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const contract = new ethers.Contract(APP_CONTRACT_ADDRESS, AppContract.abi, provider);
@@ -25,7 +31,8 @@ function PollRunning() {
       
       setState({
         ...state,
-        allPolls: polls
+        allPolls: polls,
+        processing: false
       });
       
     } catch (err) {
@@ -54,6 +61,8 @@ function PollRunning() {
       )
     });
   }
+
+  if (state.processing) return <main>Retrieving all Polls...</main>;
 
   return (
     <main>
