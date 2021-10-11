@@ -56,6 +56,16 @@ contract App {
     runningPollsData.push(newPollStruct);
   }
 
+  function resetPolls() public {
+    delete runningPollsData;
+
+    string[] memory t = new string[](2);
+    t[0] = 'Cats';
+    t[1] = 'Dogs';
+
+    createPoll('Cats or Dogs?', '', t);
+  }
+
 
   //////////////////////////////////////////////////////////////////////
   function getRunningPolls() public view returns (PollStruct[] memory) {

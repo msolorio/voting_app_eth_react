@@ -3,6 +3,7 @@ import Header from './components/Header';
 import PollCreate from './pages/PollCreate';
 import PollVote from './pages/PollVote';
 import PollTallies from './pages/PollTallies';
+import PollReset from './pages/PollReset';
 import './App.css';
 
 function App() {
@@ -18,6 +19,8 @@ function App() {
         <Route exact path="/polls/vote" render={() => <PollVote />} />
 
         <Route path="/polls/tally" render={() => <PollTallies />} />
+
+        <Route path="/polls/reset" render={() => <PollReset />} />
       </Switch>
     </div>
   );

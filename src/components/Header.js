@@ -8,6 +8,7 @@ function Header() {
           <li><Link to="/polls/new">Create Poll</Link></li>
           <li><Link to="/polls/vote">Vote</Link></li>
           <li><Link to="/polls/tally">View Tallies</Link></li>
+          <li><Link to="/polls/reset">Reset</Link></li>
         </ul>
       </nav>
     </header>
