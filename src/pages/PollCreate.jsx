@@ -11,7 +11,8 @@ function PollCreate() {
     description: '',
     options: [],
     optionInput: '',
-    redirect: false
+    redirect: false,
+    processing: false
   });
   
   
@@ -48,10 +49,15 @@ function PollCreate() {
     
     if (!state.title || !state.options.length) return;
     if (!window.ethereum) return;
-    
+
+    setState({
+      ...state,
+      processing: true
+    });
+
     try {
       await requestAccount();
-      
+
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
       const contract = new ethers.Contract(APP_CONTRACT_ADDRESS, AppContract.abi, signer);
@@ -79,6 +85,8 @@ function PollCreate() {
   }
   
   ////////////////////////////////////////////////////////////////////////////
+  if (state.processing) return <main>Creating a Poll...</main>;
+
   if (state.redirect) return <Redirect to="/polls/vote" />;
   
   return (
