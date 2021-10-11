@@ -1,9 +1,15 @@
-.tallies-count {
-  background: #ddd;
+.boxLight {
+  background: #dfdfdf;
   border: none;
   border-radius: .3em;
   padding: .4em .7em;
   margin: .2em .7em .6em 0;
   display: inline-block;
   font-size: .85em;
+}
+
+.notification {
+  margin: 0 auto;
+  display: block;
+  width: 100%;
 }

@@ -12,9 +12,10 @@ contract App {
     string[] options;
     address pollAddr;
     Poll pollContract;
-    bool running;
+    bool isRunning;
     address[] voters;
     uint[] voteCounts;
+    address creator;
   }
 
   Poll[] private pollsList;
@@ -46,9 +47,10 @@ contract App {
       options: _options,
       pollAddr: address(newPoll),
       pollContract: newPoll,
-      running: true,
+      isRunning: true,
       voters: new address[](0),
-      voteCounts: voteCounts
+      voteCounts: voteCounts,
+      creator: msg.sender
     });
 
     addrToPoll[address(newPoll)] = newPollStruct;
@@ -80,16 +82,47 @@ contract App {
     return runningPollsData;
   }
 
+  // TODO:
+  // - get poll by address
+  // - verifies if userAddr is poll creator
+  // - switch isRunning to false
+  function closePoll(address pollAddr, address userAddr, uint pollIdx) public {
+    console.log('called closePoll');
+
+    PollStruct memory pollToClose = addrToPoll[pollAddr];
+
+    if (userAddr != pollToClose.creator) {
+      console.log('user attempted to close poll they do not own.');
+      console.log('user ==>', userAddr);
+      return;
+    }
+
+    pollToClose.isRunning = false;
+
+    runningPollsData[pollIdx] = pollToClose;
+  }
+
 
   //////////////////////////////////////////////////////////////////////
   function handleVote(address pollAddr, address userAddr, uint pollIdx, uint optIdx) public {
     
     console.log('called handleVote');
 
+
+    PollStruct storage pollStruct = addrToPoll[pollAddr];
+
     // TODO: check if user address already exists in voters array
     // If so - short circuit / don't allow vote
 
-    PollStruct storage pollStruct = addrToPoll[pollAddr];
+
+    // TODO: check if poll is closed
+    // if so - short circuit / don't allow vote
+
+    // if (!pollStruct.isRunning) {
+    //   return;
+    // }
+
+    console.log('after the if check');
 
     pollStruct.voteCounts[optIdx] += 1;
 
