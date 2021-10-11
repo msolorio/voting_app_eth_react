@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
 import { APP_CONTRACT_ADDRESS } from '../../constants';
 import AppContract from '../../artifacts/contracts/App.sol/App.json';
+import './PollTallies.css';
 
 function PollRunning() {
   const [state, setState] = useState({
@@ -43,8 +44,11 @@ function PollRunning() {
   function renderTallies(options, voteCounts) {
     return options.map((opt, idx) => {
       return (
-        <p key={idx}>
-          {opt}: {voteCounts[idx].toNumber()}
+        <p className="shortText" key={idx}>
+          <span className="tallies-count">
+            {voteCounts[idx].toNumber()}
+          </span>
+          <span>{opt}</span>
         </p>
       )
     });
@@ -53,9 +57,9 @@ function PollRunning() {
   function renderPolls() {
     return state.allPolls.map((poll, idx) => {
       return (
-        <div key={idx}>
-          <h2>{poll.title}</h2>
-          { poll.description && <p>{poll.description}</p> }
+        <div className="section" key={idx}>
+          <h2 className="subHeader">{poll.title}</h2>
+          { poll.description && <p className="description">{poll.description}</p> }
           { renderTallies(poll.options, poll.voteCounts) }
         </div>
       )
@@ -65,8 +69,8 @@ function PollRunning() {
   if (state.processing) return <main>Retrieving all Polls...</main>;
 
   return (
-    <main>
-      <h1>Current Tallies</h1>
+    <main className="main">
+      <h2 className="pageHeader">Current Tallies</h2>
 
       {renderPolls()}
     </main>

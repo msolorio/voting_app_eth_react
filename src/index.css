@@ -31,12 +31,24 @@ code {
 }
 
 .subHeader {
-  margin: 0 0 .3em;
+  margin: 0 0 .4em;
   line-height: 1.3em;
 }
 
 .description {
   font-size: .9em;
   line-height: 1.3em;
-  margin: 0 0 .5em;
+  margin: 0 0 .6em;
+}
+
+.section {
+  margin: 0 0 1em;
+  border-bottom: .1em solid #ccc;
+  padding: .3em 0 1em 0;
+}
+
+.shortText {
+  font-size: 1em;
+  line-height: 1.1em;
+  margin: 0 0 .4em;
 }
