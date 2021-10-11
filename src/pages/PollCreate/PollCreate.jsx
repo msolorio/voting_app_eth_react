@@ -4,6 +4,7 @@ import { ethers } from 'ethers';
 import AppContract from '../../artifacts/contracts/App.sol/App.json';
 import { APP_CONTRACT_ADDRESS } from '../../constants';
 import './PollCreate.css';
+import '../../form.css';
 
 function PollCreate() {
   const [state, setState] = useState({
@@ -97,7 +98,7 @@ function PollCreate() {
     <main className="main createPage">
       <h2 className="pageHeader">Create a Poll</h2>
 
-      <form onSubmit={handleFormSubmit}>
+      <form className="form" onSubmit={handleFormSubmit}>
         <div className="form-group">
           <label className="form-label" htmlFor="title">Title: </label>
           <input
@@ -124,7 +125,7 @@ function PollCreate() {
         <div className="form-group">
           <label className="form-label" htmlFor="options">Options:</label>
           <ul id="options" className="form-optionGroup">{renderOptions()}</ul>
-          
+
           <label className="form-label" htmlFor="optionInput" hidden>Add: </label>
           <input
             className="form-input"

@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
-import AppContract from '../../artifacts/contracts/App.sol/App.json';
 import cloneDeep from 'clone-deep';
+import AppContract from '../../artifacts/contracts/App.sol/App.json';
+import '../../form.css';
+import './PollVote.css';
 
 import { APP_CONTRACT_ADDRESS } from '../../constants';
 
@@ -98,9 +100,11 @@ function PollVote() {
 
       return (
         <li 
+          className="form-radioGroup"
           key={`${pollIdx}-${optIdx}`} 
-          >
+        >
           <input 
+            className="form-radio"
             type="radio" 
             name="choice" 
             id={`${pollIdx}-${optIdx}`} 
@@ -109,7 +113,12 @@ function PollVote() {
             disabled={!enabled}
             onChange={(e) => handleOptSelect(e, pollIdx, optIdx)}
           />
-          <label htmlFor={`${pollIdx}-${optIdx}`}>{opt}</label>
+          <label 
+            className="form-radioLabel"
+            htmlFor={`${pollIdx}-${optIdx}`}
+          >
+            {opt}
+          </label>
         </li>
       );
     });
@@ -158,13 +167,23 @@ function PollVote() {
   function renderPolls() {
     return state.allPolls.map((poll, idx) => {
       return (
-        <form key={idx} onSubmit={(e) => handleVote(e, idx, poll.pollAddr)}>
-          <h2>{poll.title}</h2>
-          <p>{poll.description}</p>
-          <ul>
+        <form 
+          className="form voteForm"
+          key={idx} 
+          onSubmit={(e) => handleVote(e, idx, poll.pollAddr)}
+        >
+          <h2 className="subHeader">{poll.title}</h2>
+          <p className="description">{poll.description}</p>
+          <ul class="form-radios">
             {renderOptions(poll.options, idx, poll.enabled)}
           </ul>
-          { poll.enabled && <input type="submit" value="Vote" /> }
+          { poll.enabled && (
+            <input 
+              className="form-button buttonSubmit" 
+              type="submit" 
+              value="Vote" 
+            /> 
+          )}
         </form>
       )
     });
@@ -176,8 +195,8 @@ function PollVote() {
 
   /////////////////////////////////////////////////////////////////////////////////
   return (
-    <main>
-      <h1>All Polls</h1>
+    <main className="main">
+      <h2 className="pageHeader">All Polls</h2>
       { renderPolls() }
     </main>
   );

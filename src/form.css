@@ -1,0 +1,72 @@
+.form {
+  margin: 0 0 1em;
+}
+
+.voteForm {
+  border-bottom: .1em solid #ccc;
+  padding: .3em 0 1em 0;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  padding: 0 0 .8em;
+}
+
+.form-label {
+  margin: 0 0 .3em;
+}
+
+.form-input {
+  padding: .3em .4em;
+  margin: 0 0 .5em;
+  border-radius: .3em;
+  border: .1em solid #888;
+}
+
+.form-optionGroup {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.form-option {
+  background: #ddd;
+  border: none;
+  border-radius: .3em;
+  padding: .4em .7em;
+  margin: .2em .3em .6em 0;
+  display: inline-block;
+  font-size: .85em;
+}
+
+.form-button {
+  margin: 0 auto;
+  display: block;
+  padding: .4em 1em;
+  border-radius: .3em;
+  background: #c0c0c0;
+  border: none;
+}
+
+.form-buttonOption {
+  width: 100%;
+}
+
+.form-buttonSubmit {
+  margin-top: 1.5em;
+}
+
+/* **************************************************** */
+/* RADIO BUTTONS */
+.form-radios {
+  margin: 0 0 1em;
+}
+
+.form-radioGroup {
+  margin: 0 0 .3em;
+}
+
+.form-radio, .form-radioLabel {
+  cursor: pointer;
+}
