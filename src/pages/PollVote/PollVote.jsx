@@ -174,7 +174,7 @@ function PollVote() {
         >
           <h2 className="subHeader">{poll.title}</h2>
           <p className="description">{poll.description}</p>
-          <ul class="form-radios">
+          <ul className="form-radios">
             {renderOptions(poll.options, idx, poll.enabled)}
           </ul>
           { poll.enabled && (
@@ -189,9 +189,9 @@ function PollVote() {
     });
   }
 
-  if (state.retrievingPolls) return <main>Retrieving all Polls...</main>;
+  if (state.retrievingPolls) return <main className="main">Retrieving all Polls...</main>;
 
-  if (state.processingVote) return <main>Processing your vote...</main>;
+  if (state.processingVote) return <main className="main">Processing your vote...</main>;
 
   /////////////////////////////////////////////////////////////////////////////////
   return (

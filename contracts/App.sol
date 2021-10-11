@@ -86,6 +86,9 @@ contract App {
     
     console.log('called handleVote');
 
+    // TODO: check if user address already exists in voters array
+    // If so - short circuit / don't allow vote
+
     PollStruct storage pollStruct = addrToPoll[pollAddr];
 
     pollStruct.voteCounts[optIdx] += 1;

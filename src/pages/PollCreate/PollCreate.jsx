@@ -90,7 +90,7 @@ function PollCreate() {
   }
   
   ////////////////////////////////////////////////////////////////////////////
-  if (state.processing) return <main>Creating a Poll...</main>;
+  if (state.processing) return <main className="main">Creating a Poll...</main>;
 
   if (state.redirect) return <Redirect to="/polls/vote" />;
   

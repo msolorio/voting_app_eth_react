@@ -66,7 +66,7 @@ function PollRunning() {
     });
   }
 
-  if (state.processing) return <main>Retrieving all Polls...</main>;
+  if (state.processing) return <main className="main">Retrieving all Polls...</main>;
 
   return (
     <main className="main">

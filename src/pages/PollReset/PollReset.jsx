@@ -27,7 +27,7 @@ function Reset() {
 
   if (redirect) return <Redirect to="/polls/vote" />
 
-  return <main>Loading...</main>
+  return <main className="main">Loading...</main>
 }
 
 export default Reset;
