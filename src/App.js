@@ -1,4 +1,4 @@
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import Header from './components/Header';
 import PollCreate from './pages/PollCreate';
 import PollVote from './pages/PollVote';
@@ -11,6 +11,8 @@ function App() {
       <Header />
 
       <Switch>
+        <Route exact path="/" render={() => <Redirect to="/polls/vote" />} />
+
         <Route path="/polls/new" render={() => <PollCreate />} />
         
         <Route exact path="/polls/vote" render={() => <PollVote />} />
