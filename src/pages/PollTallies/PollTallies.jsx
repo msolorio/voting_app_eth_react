@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
-// import cloneDeep from 'clone-deep';
 import { APP_CONTRACT_ADDRESS } from '../../constants';
 import AppContract from '../../artifacts/contracts/App.sol/App.json';
 import './PollTallies.css';
@@ -8,7 +7,8 @@ import './PollTallies.css';
 function PollTallies() {
   const [state, setState] = useState({
     allPolls: [],
-    processing: false,
+    retrievingPolls: false,
+    closingPoll: false,
     userAddr: ''
   });
 
@@ -29,7 +29,7 @@ function PollTallies() {
 
     setState({
       ...state,
-      processing: true
+      retrievingPolls: true
     });
 
     const userAddr = await requestAccount();
@@ -45,7 +45,7 @@ function PollTallies() {
       setState({
         ...state,
         allPolls: polls,
-        processing: false,
+        retrievingPolls: false,
         userAddr: userAddr
       });
       
@@ -56,6 +56,11 @@ function PollTallies() {
 
   const handleCloseClick = async (poll, pollIdx) => {
     console.log('close button clicked');
+
+    setState({
+      ...state,
+      closingPoll: true
+    });
 
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
@@ -78,7 +83,8 @@ function PollTallies() {
 
       setState({
         ...state,
-        allPolls: allPollsClone
+        allPolls: allPollsClone,
+        closingPoll: false
       });
 
     } catch (err) {
@@ -137,7 +143,9 @@ function PollTallies() {
     });
   }
 
-  if (state.processing) return <main className="main">Retrieving all Polls...</main>;
+  if (state.retrievingPolls) return <main className="main">Retrieving all Polls...</main>;
+
+  if (state.closingPoll) return <main className="main">Closing poll in progress...</main>
 
   return (
     <main className="main">

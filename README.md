@@ -13,4 +13,5 @@ Voting App storing poll and voting information on the Ethereum blockchain.
 ## Users Can...
 - Create polls
 - Vote on polls
-- View voting tally on running and completed polls
+- View voting tally on polls
+- Close their own polls
