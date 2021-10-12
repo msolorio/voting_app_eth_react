@@ -166,6 +166,8 @@ function PollVote() {
   /////////////////////////////////////////////////////////////////////////////////
   function renderPolls() {
     return state.allPolls.map((poll, idx) => {
+      if (!poll.isRunning) return null;
+
       return (
         <form 
           className="form voteForm"

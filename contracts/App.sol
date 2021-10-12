@@ -58,19 +58,18 @@ contract App {
     runningPollsData.push(newPollStruct);
   }
 
+  //////////////////////////////////////////////////////////////////////
   function resetPolls() public {
     delete runningPollsData;
 
     string[] memory t1 = new string[](2);
     t1[0] = 'Cats';
     t1[1] = 'Dogs';
-
     createPoll('Cats or Dogs?', '', t1);
 
     string[] memory t2 = new string[](2);
     t2[0] = 'Mountains';
     t2[1] = 'Beaches';
-
     createPoll('Mountains or Beaches?', '', t2);
   }
 
@@ -82,14 +81,10 @@ contract App {
     return runningPollsData;
   }
 
-  // TODO:
-  // - get poll by address
-  // - verifies if userAddr is poll creator
-  // - switch isRunning to false
-  function closePoll(address pollAddr, address userAddr, uint pollIdx) public {
-    console.log('called closePoll');
 
-    PollStruct memory pollToClose = addrToPoll[pollAddr];
+  //////////////////////////////////////////////////////////////////////
+  function closePoll(address pollAddr, address userAddr, uint pollIdx) public {
+    PollStruct storage pollToClose = addrToPoll[pollAddr];
 
     if (userAddr != pollToClose.creator) {
       console.log('user attempted to close poll they do not own.');
@@ -98,54 +93,38 @@ contract App {
     }
 
     pollToClose.isRunning = false;
-
     runningPollsData[pollIdx] = pollToClose;
   }
 
 
   //////////////////////////////////////////////////////////////////////
   function handleVote(address pollAddr, address userAddr, uint pollIdx, uint optIdx) public {
-    
-    console.log('called handleVote');
-
-
     PollStruct storage pollStruct = addrToPoll[pollAddr];
 
-    // TODO: check if user address already exists in voters array
-    // If so - short circuit / don't allow vote
+    if (!pollStruct.isRunning) {
+      console.log('User attempted to vote on closed poll');
+      console.log('user ==>', userAddr);
+      return;
+    }
 
+    // If user already voted, disallow vote /////////////////////////////
+    bool alreadyVoted = false;
 
-    // TODO: check if poll is closed
-    // if so - short circuit / don't allow vote
+    for (uint i = 0; i < pollStruct.voters.length; i++) {
+      if (pollStruct.voters[i] == userAddr) {
+        alreadyVoted = true;
+      }
+    }
 
-    // if (!pollStruct.isRunning) {
-    //   return;
-    // }
+    if (alreadyVoted) {
+      console.log('User attempted to vote more than once');
+      console.log('user ==>', userAddr);
+      return;
+    }
 
-    console.log('after the if check');
-
+    // Increment vote count for poll
     pollStruct.voteCounts[optIdx] += 1;
-
     pollStruct.voters.push(userAddr);
-
     runningPollsData[pollIdx] = pollStruct;
   }
 }
-
-// contract Greeter {
-//     string private greeting;
-
-//     constructor(string memory _greeting) {
-//         console.log("Deploying a Greeter with greeting:", _greeting);
-//         greeting = _greeting;
-//     }
-
-//     function greet() public view returns (string memory) {
-//         return greeting;
-//     }
-
-//     function setGreeting(string memory _greeting) public {
-//         console.log("Changing greeting from '%s' to '%s'", greeting, _greeting);
-//         greeting = _greeting;
-//     }
-// }

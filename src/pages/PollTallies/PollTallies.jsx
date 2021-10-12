@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
-import cloneDeep from 'clone-deep';
+// import cloneDeep from 'clone-deep';
 import { APP_CONTRACT_ADDRESS } from '../../constants';
 import AppContract from '../../artifacts/contracts/App.sol/App.json';
 import './PollTallies.css';
@@ -64,6 +64,8 @@ function PollTallies() {
     try {
       const transaction = await contract.closePoll(poll.pollAddr, state.userAddr, pollIdx);
       await transaction.wait();
+
+      console.log('after close transaction');
 
       // - clones poll
       // - updates isRunning
