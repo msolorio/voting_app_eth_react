@@ -4,7 +4,7 @@ Voting App storing poll and voting information on the Ethereum blockchain.
 
 ---
 ## Technologies Used
-- [Solidity](https://docs.soliditylang.org/en/v0.8.9/)
+- [Solidity](https://docs.soliditylang.org/en/latest/)
 - [Hardhat](https://hardhat.org/)
 - [Ethers Js](https://docs.ethers.io/v5/)
 - [React](https://reactjs.org/)
