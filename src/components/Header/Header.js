@@ -4,7 +4,7 @@ import './Header.css';
 function Header() {
   return (
     <header className="header">
-      <h1 className="header-title">Voting App</h1>
+      <h1 className="header-title">Voterocity</h1>
       <nav className="header-nav">
         <ul className="header-ul">
           <li className="header-li"><Link className="header-link" to="/polls/new">Create</Link></li>
