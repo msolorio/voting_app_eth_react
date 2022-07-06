@@ -14,7 +14,7 @@ Voting App storing poll and voting information on the Ethereum blockchain.
 ## Demo
 
 1. A working deployed implementation<br>
-https://voting-app-ms.herokuapp.com
+voterocity.netlify.app
 
 2. first create a test Ethereum wallet with a tool like MetaMask.<br>
 https://metamask.io/
